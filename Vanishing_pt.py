@@ -1,12 +1,17 @@
 import cv2
 import numpy as np
-from scipy.optimize import leastsq
+import argparse
 
-img = cv2.imread('vanishing_pt/carla.png')
+ap = argparse.ArgumentParser()
+ap.add_argument("-i", "--srcdir", help="path to the images directory")
+args = ap.parse_args()
+
+img = cv2.imread(args.srcdir)
 gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
 edges = cv2.Canny(gray, 80, 50)
-# fine tune parameters
 lines = cv2.HoughLines(edges, 1, np.pi / 180, 200)
+
+# Draw the lines
 k = []
 b = []
 for line in lines:
@@ -25,13 +30,9 @@ for line in lines:
     cv2.line(img, (x1, y1), (x2, y2), (0, 255, 0), 1)
     k.append((y2 - y1) / (x2 - x1))
     b.append(y1 - (y2 - y1) / (x2 - x1) * x1)
-    # print((x1, y1), (x2, y2))
 
 
-# print(k)
-# print(b)
-
-
+# Calculate the distance from point (x, y) to lines
 def func(x, y):
     d = 0
     for i in range(len(k)):
@@ -39,6 +40,7 @@ def func(x, y):
     return d
 
 
+# Find the vanishing point with minimum distance to lines
 min_distance = 9999999
 vanishing_x = 0
 vanishing_y = 0
@@ -50,12 +52,8 @@ for i in range(img.shape[0]):
             vanishing_x = i
             vanishing_y = j
 
-print(min_distance)
-print(vanishing_x, vanishing_y)
-cv2.circle(img, (vanishing_x, vanishing_y), 5, (0, 0, 255), 1)
 
-# vanishing_point = leastsq(func, (0, 0))
-# print(vanishing_point)
-
-cv2.imshow("Image with Lines", img);
+# Draw the vanishing point
+cv2.circle(img, (vanishing_x, vanishing_y), 5, (0, 0, 255), 2)
+cv2.imshow("Image with lines and vanishing point", img);
 cv2.waitKey()

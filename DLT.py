@@ -48,12 +48,6 @@ def compute_target_points(src_points):
 
 
 def dlt(src_points, norm):
-    def get_average_dist_to_origin(points):
-        dist = (points - [0, 0]) ** 2
-        dist = np.sum(dist, axis=1)
-        dist = np.sqrt(dist)
-
-        return np.mean(dist)
 
     def Normalization(point):
         m = np.mean(point, 0)
@@ -93,7 +87,3 @@ def dlt(src_points, norm):
         H = denormalization(T1, T2, H)
 
     return H, maxWidth, maxHeight
-
-    warped = cv2.warpPerspective(src_img, H, (maxWidth, maxHeight))
-    cv2.imshow("Warped Image", warped)
-    cv2.waitKey()

@@ -48,11 +48,10 @@ def compute_target_points(src_points):
 
 
 def dlt(src_points, norm):
-
     def Normalization(point):
         m = np.mean(point, 0)
         s = np.std(point)
-        Tr = np.array([[s/np.sqrt(2), 0, m[0]], [0, s/np.sqrt(2), m[1]], [0, 0, 1]])
+        Tr = np.array([[s / np.sqrt(2), 0, m[0]], [0, s / np.sqrt(2), m[1]], [0, 0, 1]])
         Tr = np.linalg.inv(Tr)
         trans_point = np.dot(Tr, np.concatenate((point.T, np.ones((1, point.shape[0])))))
         trans_point = trans_point[0:2].T
@@ -61,7 +60,6 @@ def dlt(src_points, norm):
     def denormalization(T1, T2, H_norm):
         H_denorm = np.dot(np.dot(np.linalg.inv(T2), H_norm), T1)
         return H_denorm
-
 
     target_points, maxWidth, maxHeight = compute_target_points(src_points)
 
@@ -85,5 +83,6 @@ def dlt(src_points, norm):
 
     if norm:
         H = denormalization(T1, T2, H)
+        H = H[:, :] / H[-1, -1]
 
     return H, maxWidth, maxHeight

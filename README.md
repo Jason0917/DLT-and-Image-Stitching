@@ -19,6 +19,8 @@ Please use the following command to run ImageStitching.py
 
 ```python ImageStitching.py -i images_folder_path```
 
+Close the pop-out image window to continue running the program.
+
 If you want to use LMEDS instead of RANSAC, please run
 
 ```python ImageStitching.py -i images_folder_path --lmeds```

@@ -28,7 +28,7 @@ Example
 
 ```python ImageStitching.py -i overdetermined/fishbowl --lmeds```
 
-## Vanishing Point Detection
+## Vanishing Point Detection Based on Hough Lines Detection
 
 Please use the following command to run Vanishing_pt.py
 

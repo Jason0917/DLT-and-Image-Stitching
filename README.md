@@ -1,5 +1,4 @@
-# MM805 Coding Assignment
-
+# DLT for homography estimation, Image Stitching, Vanishing Point Detection
 ## Perspective Correction
 Please use the following command to run PerspectiveCorrection.py
 
